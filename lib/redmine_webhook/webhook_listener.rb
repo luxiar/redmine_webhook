@@ -63,7 +63,7 @@ module RedmineWebhook
       issues = controller.instance_variable_get(:@saved_issues) || controller.instance_variable_get(:@issues)
       issues.group_by(&:project_id).each do |project_id, issues|
         webhooks = Webhook.where(project_id: project_id)
-        return if webhooks.blank?
+        next if webhooks.blank?
 
         post_body = {
           payload: {
